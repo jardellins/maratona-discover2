@@ -17,6 +17,14 @@ let data = [
 
 module.exports = {
     get() {
+        let newId = 1
+
+        data.map(data => {
+            data.id = newId
+
+            newId++
+        })
+        
         return data
     },
     update(newJob) {

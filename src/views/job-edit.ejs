@@ -44,7 +44,7 @@
                 type="text" 
                 id="name" 
                 name="name"
-                value="Pizzaria Guloso"
+                value="<%= job.name %> "
               />
             </div>
 
@@ -80,7 +80,7 @@
           O valor do projeto ficou em <strong>R$ <%= job.budget.toFixed(2).replace('.',',') %> </strong>
         </p>
         <div class="button-group">
-          <%- include('parts/button-save', {FormInfo: 'form-group', TextButton: 'Salvar'})  %> 
+          <%- include('parts/button-save', {FormInfo: 'form-job', TextButton: 'Salvar'})  %> 
           <a 
             href="#" 
             class="button gray open-modal"

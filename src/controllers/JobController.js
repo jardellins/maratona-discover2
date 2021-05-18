@@ -1,43 +1,22 @@
 const Job = require('../model/Job')
 const Profile = require('../model/Profile')
-const jobUtils = require('../utils/JobUtils')
 const JobUtils = require('../utils/JobUtils')
 
 module.exports = {
-    index(req, res) {
-        const job = Job.get()
-        const profile = Profile.get()
-
-        const updatedJobs = job.map((job) => {
-            const remaining = JobUtils.remainingDays(job)
-            const status = remaining <= 0 ? 'done' : 'progress'
-
-            return {
-                ...job,
-                remaining,
-                status,
-                budget: JobUtils.calculateBudget(job, profile["value-hour"])
-            }
-        })
-
-        return res.render("index", { profile: profile, jobs: updatedJobs })
-    },
-
     create(req, res) {
         return res.render("job")
     },
 
     save(req, res) {
         const jobs = Job.get()
-        // let lastId = Number(jobs[jobs.length - 1].id)
-        const lastId = jobs[jobs.length - 1]?.id || 0
 
-        // if (lastId <= 0) {
-        //     lastId = 0
-        // }
+        let lengthIds = Number(jobs.length)
+
+        //o comando abaixo só irá funcionar nas versões mais novas do Node
+        // const lastId = jobs[jobs.length - 1]?.id || 0
 
         jobs.push({
-            id: lastId + 1,
+            id: lengthIds + 1,
             name: req.body.name,
             "daily-hours": req.body["daily-hours"],
             "total-hours": req.body["total-hours"],
@@ -80,7 +59,7 @@ module.exports = {
             "daily-hours": req.body["daily-hours"],
         }
 
-        const newJobs = Job.data.map(job => {
+        const newJobs = jobs.map(job => {
             if (Number(job.id) === Number(jobId)) {
                 job = updateJob
             }
@@ -90,7 +69,7 @@ module.exports = {
 
         Job.update(newJobs)
 
-        res.redirect
+        res.redirect('/job/' + jobId)
     },
 
     delete(req, res) {
