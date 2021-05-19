@@ -15,7 +15,7 @@ module.exports = {
         //o comando abaixo só irá funcionar nas versões mais novas do Node
         // const lastId = jobs[jobs.length - 1]?.id || 0
 
-        jobs.push({
+        Job.create({
             id: lengthIds + 1,
             name: req.body.name,
             "daily-hours": req.body["daily-hours"],
